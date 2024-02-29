@@ -1,10 +1,12 @@
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { Calculator, Clock, LogOut, UserRound } from 'lucide-react';
 
 import { ThemeToggle } from '@/components';
 import { FullLogoIcon } from '@/components/icons';
-import { Button } from '@/components/ui';
+import { Button, buttonVariants, Toaster } from '@/components/ui';
+import { cn } from '@/lib/utils';
 import { NotFound } from '@/pages/NotFound';
 
 const links = [
@@ -44,7 +46,7 @@ const Root = () => (
       ))}
     </nav>
 
-    <header className='sticky left-0 right-0 top-0 z-10 hidden justify-center bg-background py-2 sm:flex'>
+    <header className='sticky left-0 right-0 top-0 z-10 hidden justify-center bg-background px-4 py-4 sm:flex'>
       <div className='flex w-full max-w-5xl items-center justify-between'>
         <div className='flex items-center gap-8'>
           <Link to='/'>
@@ -54,7 +56,7 @@ const Root = () => (
             <Link
               key={link.to}
               to={link.to}
-              className='flex items-center gap-4 text-base [&.active]:text-primary'
+              className={cn(buttonVariants({ variant: 'ghost' }), 'gap-4 [&.active]:text-primary')}
             >
               <link.icon className='size-5' />
               <span>{link.title}</span>
@@ -71,10 +73,12 @@ const Root = () => (
       </div>
     </header>
 
-    <div className='mx-auto flex min-h-screen w-full max-w-5xl items-center justify-center px-4 sm:min-h-[calc(100vh-56px)] lg:px-0'>
+    <div className='mx-auto flex min-h-screen w-full max-w-5xl items-center justify-center px-4 sm:min-h-[calc(100vh-72px)] lg:px-0'>
       <Outlet />
     </div>
+    <Toaster />
     <TanStackRouterDevtools />
+    <ReactQueryDevtools initialIsOpen={false} />
   </>
 );
 
