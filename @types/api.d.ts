@@ -1,6 +1,6 @@
 interface BaseResponse {
   success: boolean;
-  reason: string;
+  reason?: string;
 }
 
 interface MutationSettings<Params = void, Func = unknown> {

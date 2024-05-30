@@ -1,52 +1,18 @@
+import type { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
+import { createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
-import { Calculator, Clock, LogOut, UserRound } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 
 import { ThemeToggle } from '@/components';
 import { FullLogoIcon } from '@/components/icons';
 import { Button, buttonVariants, Toaster } from '@/components/ui';
+import { links } from '@/lib/constants';
 import { cn } from '@/lib/utils';
-import { NotFound } from '@/pages/NotFound';
-
-const links = [
-  {
-    title: 'История',
-    to: '/history',
-    icon: Clock
-  },
-  {
-    title: 'Профиль',
-    to: '/profile',
-    icon: UserRound
-  }
-];
-
-const mobilelinks = [
-  {
-    title: 'Расчёт',
-    to: '/',
-    icon: Calculator
-  },
-  ...links
-];
 
 const Root = () => (
   <>
-    <nav className='fixed bottom-0 left-0 right-0 z-10 flex justify-around bg-background py-3 sm:hidden'>
-      {mobilelinks.map((link) => (
-        <Link
-          key={link.to}
-          to={link.to}
-          className='flex flex-col items-center gap-1 text-xs text-foreground [&.active]:text-primary'
-        >
-          <link.icon className='size-5' />
-          <span>{link.title}</span>
-        </Link>
-      ))}
-    </nav>
-
-    <header className='sticky left-0 right-0 top-0 z-10 hidden justify-center bg-background px-4 py-4 sm:flex'>
+    <header className='sticky left-0 right-0 top-0 z-10  hidden justify-center bg-background px-4 py-4 sm:flex'>
       <div className='flex w-full max-w-5xl items-center justify-between'>
         <div className='flex items-center gap-8'>
           <Link to='/'>
@@ -73,16 +39,27 @@ const Root = () => (
       </div>
     </header>
 
-    <div className='mx-auto flex min-h-screen w-full max-w-5xl items-center justify-center px-4 sm:min-h-[calc(100vh-72px)] lg:px-0'>
-      <Outlet />
-    </div>
+    <Outlet />
     <Toaster />
     <TanStackRouterDevtools />
     <ReactQueryDevtools initialIsOpen={false} />
   </>
 );
 
-export const Route = createRootRoute({
+const NotFound = () => {
+  return (
+    <div className='flex h-screen w-screen flex-col items-center justify-center gap-4 bg-background text-foreground'>
+      404
+      <Link to='/' className={buttonVariants()} replace>
+        На главную
+      </Link>
+    </div>
+  );
+};
+
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient;
+}>()({
   component: Root,
-  notFoundComponent: () => <NotFound />
+  notFoundComponent: NotFound
 });

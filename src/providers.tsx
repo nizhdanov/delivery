@@ -1,6 +1,7 @@
 import type { QueryClient } from '@tanstack/react-query';
 import { QueryClientProvider } from '@tanstack/react-query';
 
+import { OrderProvider } from './lib/contexts/order';
 import type { ThemeProviderProps } from './lib/contexts/theme';
 import { ThemeProvider } from './lib/contexts/theme';
 
@@ -12,6 +13,8 @@ export interface ProvidersProps {
 
 export const Providers = ({ theme, queryClient, children }: ProvidersProps) => (
   <ThemeProvider {...theme}>
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <OrderProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </OrderProvider>
   </ThemeProvider>
 );

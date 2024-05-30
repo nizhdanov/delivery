@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 import type { ProvidersProps } from './providers';
@@ -10,16 +11,6 @@ import { routeTree } from './routeTree.gen';
 
 import './assets/styles/index.css';
 
-const rootElement = document.getElementById('root')!;
-const root = ReactDOM.createRoot(rootElement);
-
-const router = createRouter({ routeTree });
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router;
-  }
-}
 const DEFAULT_ERROR = 'Something went wrong';
 
 const queryClient = new QueryClient({
@@ -39,6 +30,23 @@ const queryClient = new QueryClient({
     }
   })
 });
+
+const rootElement = document.getElementById('root')!;
+const root = ReactDOM.createRoot(rootElement);
+
+const router = createRouter({
+  routeTree,
+  context: {
+    queryClient
+  },
+  defaultPendingComponent: () => <Loader2 className='animate-spin' />
+});
+
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router;
+  }
+}
 
 const init = () => {
   const providersProps: Omit<ProvidersProps, 'children'> = {

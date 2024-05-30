@@ -26,7 +26,8 @@ module.exports = {
         'promise/always-return': 'off',
         '@typescript-eslint/no-unused-expressions': 'off',
         'jsx-a11y/label-has-associated-control': 'warn',
-        'prettier/prettier': 'off'
+        'prettier/prettier': 'off',
+        'jsx-a11y/anchor-is-valid': 'off'
       }
     }
   ]

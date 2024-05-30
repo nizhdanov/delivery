@@ -10,8 +10,7 @@
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
     "stylelint": "stylelint \"**/*.css\"",
     "pretty": "yarn format && yarn lint --fix && yarn stylelint --fix",
-    "preview": "vite preview",
-    "codegen": "graphql-codegen "
+    "preview": "vite preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
