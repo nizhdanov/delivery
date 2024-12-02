@@ -46,6 +46,33 @@ const FormSchema = z.object({
   //   .optional()
 });
 
+const defaultPoints = [
+  {
+    id: '1',
+    name: 'Москва',
+    latitude: 55.7558,
+    longitude: 37.6173
+  },
+  {
+    id: '2',
+    name: 'Санкт-Петербург',
+    latitude: 59.9386,
+    longitude: 30.3141
+  },
+  {
+    id: '3',
+    name: 'Екатеринбург',
+    latitude: 56.8389,
+    longitude: 60.6057
+  },
+  {
+    id: '4',
+    name: 'Новосибирск',
+    latitude: 55.0089,
+    longitude: 82.935
+  }
+];
+
 export const Calc = () => {
   const navigate = useNavigate();
   const { order, setOrder } = useOrder();
@@ -63,7 +90,7 @@ export const Calc = () => {
     }
   });
 
-  const points = deliveryPointsQuery.data?.data.points;
+  const points = deliveryPointsQuery.data?.data.points ?? defaultPoints;
   const packages = deliveryPackageTypesQuery.data?.data.packages;
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -71,9 +98,9 @@ export const Calc = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    const senderPoint = points!.find((point) => point.name === data.senderPointName)!;
+    const senderPoint = points.find((point) => point.name === data.senderPointName)!;
 
-    const receiverPoint = points!.find((point) => point.name === data.receiverPointName)!;
+    const receiverPoint = points.find((point) => point.name === data.receiverPointName)!;
 
     const packageType = packages!.find((packageType) => packageType.name === data.packageSize)!;
 
@@ -94,13 +121,13 @@ export const Calc = () => {
 
   return (
     <div className='w-full'>
-      <span className='absolute bottom-0 left-0 right-0 top-0 -z-10 overflow-hidden '>
-        <BgCircleIcon className='absolute left-[580px] top-[-218px] animate-move-rt ' />
+      <span className='absolute bottom-0 left-0 right-0 top-0 -z-10 overflow-hidden'>
+        <BgCircleIcon className='absolute left-[580px] top-[-218px] animate-move-rt' />
         <BgCircleIcon className='absolute bottom-[-165px] left-[344px] animate-move-dc fill-[#0E43CB]' />
-        <BgCircleIcon className='absolute left-[-148px] top-[-158px] animate-move-lt fill-[#CB0E16] ' />
+        <BgCircleIcon className='absolute left-[-148px] top-[-158px] animate-move-lt fill-[#CB0E16]' />
       </span>
 
-      <main className='flex h-full w-full items-center justify-center lg:justify-between '>
+      <main className='flex h-full w-full items-center justify-center lg:justify-between'>
         <div className='hidden w-[448px] flex-col items-center justify-center gap-4 lg:flex'>
           <img src={IMAGES.earth} alt='earth' />
           <h2 className='text-center text-3xl font-bold text-foreground'>
@@ -308,7 +335,7 @@ export const Calc = () => {
                   size='lg'
                   className='w-full gap-4'
                 >
-                  {deliveryCalcMutation.isPending && <Loader2 className='animate-spin ' />}
+                  {deliveryCalcMutation.isPending && <Loader2 className='animate-spin' />}
                   Рассчитать
                 </Button>
               </form>

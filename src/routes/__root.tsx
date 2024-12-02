@@ -2,7 +2,7 @@ import type { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
-import { LogOut } from 'lucide-react';
+import { LogOutIcon } from 'lucide-react';
 
 import { ThemeToggle } from '@/components';
 import { FullLogoIcon } from '@/components/icons';
@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 
 const Root = () => (
   <>
-    <header className='sticky left-0 right-0 top-0 z-10  hidden justify-center bg-background px-4 py-4 sm:flex'>
+    <header className='sticky left-0 right-0 top-0 z-10 hidden justify-center bg-background px-4 py-4 sm:flex'>
       <div className='flex w-full max-w-5xl items-center justify-between'>
         <div className='flex items-center gap-8'>
           <Link to='/'>
@@ -32,7 +32,7 @@ const Root = () => (
         <div className='flex items-center gap-4'>
           <ThemeToggle />
           <Button variant='ghost' className='gap-4'>
-            <LogOut className='size-5' />
+            <LogOutIcon className='size-5' />
             Выйти
           </Button>
         </div>
@@ -42,7 +42,7 @@ const Root = () => (
     <Outlet />
     <Toaster />
     <TanStackRouterDevtools />
-    <ReactQueryDevtools initialIsOpen={false} />
+    <ReactQueryDevtools initialIsOpen />
   </>
 );
 
